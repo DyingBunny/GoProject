@@ -7,9 +7,7 @@ import (
 	"stuSys/models/table"
 )
 
-func Post(router *gin.Engine){
-	router.StaticFS("/",http.Dir("E:/GoProject/stuSys/view/dist"))
-	router.POST("/auth", func(context *gin.Context) {
+func Post(context *gin.Context){
 		var people table.Login
 		if context.BindJSON(&people)==nil{
 			username:=people.Username
@@ -20,7 +18,6 @@ func Post(router *gin.Engine){
 			if models.Check(username,password){
 				models.UpdateSta(username)
 			}
-		}
-	})
+	}
 }
 

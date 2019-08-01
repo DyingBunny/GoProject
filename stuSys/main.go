@@ -1,14 +1,21 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"stuSys/models"
-	"stuSys/routers/api"
+	"fmt"
+	"net/http"
+	"stuSys/pkg/setting"
+	"stuSys/routers"
 )
 
 func main() {
-	router := gin.Default()
-	models.Init()
-	api.Post(router)
-	router.Run() // listen and serve on 0.0.0.0:8080
+	router := routers.InitRouter()
+	router.StaticFS("/",http.Dir("E:/GoProject/tutorsys/stuSys/tutorsys-frontend"))
+	s := &http.Server{
+		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Handler:        router,
+		ReadTimeout:    setting.ReadTimeout,
+		WriteTimeout:   setting.WriteTimeout,
+		MaxHeaderBytes: 1 << 20,
+	}
+	s.ListenAndServe()
 }
