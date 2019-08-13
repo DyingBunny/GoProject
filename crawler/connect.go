@@ -18,9 +18,11 @@ func mysql(name string, money string) {
 		log.Fatal("Connect error:", err)
 		return
 	}
+	
 	if !db.HasTable(&crawler{}) {
 		db.CreateTable(&crawler{})
 	}
+	
 	people := crawler{Name: name, Money: money}
 	db.Create(&people)
 }
